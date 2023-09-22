@@ -1,7 +1,10 @@
-const express = require('express') /// importando el modelo express
-const app = express()
+const express = require('express');
+const app = express();
+
+app.use(express.json());
 
 //http://localhost:3000/
+
 
 app.get('/', (req, res) => {
     res.json({msg: 'hello get'})
@@ -37,9 +40,31 @@ app.get('/login', (req, res)=>{
     res.status(404).json ({msg: 'error en el usuario y contraseña'})
 });
 
-app.post('/', (req, res) => {
-    res.json({msg: 'hello post'})
+app.post('/login', (req, res) => {  //Endpoint
+    const {user, password}=req.body
+    console.log(user)
+
+
+    if  (!user || !password) { 
+        res.status(400).json ({
+            msg: 'You need to provide <user> and <password> parameters'
+        }) 
+        return
+
+    }
+
+    if  (user === 'yuliana' && password=== '123') { 
+        res.json ({msg: 'Iniciaste sesión con éxito'}) 
+        return
+
+    }
+
+    res.status(404).json({
+        msg: 'error en el usuario y contraseña'
+    })
 });
+
+
 
 app.put('/', (req, res) => {
     res.json({msg: 'hello put'})
